@@ -26,7 +26,11 @@ const PORT = process.env.PORT || 9000
 
 // Go to localhost:9090 in your browser while the program is running
 app.get('/', (req, res) => {
-    res.render('home.pug')
+  Data = {
+    value1: "Something good",
+    cake: "Not a pie"
+  }
+  res.render('home.pug', Data)
 })
 
 
