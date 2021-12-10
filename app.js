@@ -2,6 +2,7 @@ var livereload = require('livereload');
 var server = livereload.createServer();
 server.watch(__dirname + "/public");
 const DB = require('./functions/firestore');
+const LocalStore = require('./functions/localStorage')
 
 // automatically refresh home page
 server.server.once("connection", () => {
@@ -13,10 +14,13 @@ server.server.once("connection", () => {
 var connectLiveReload = require("connect-livereload")
 
 const express = require('express');
+const bodyParser = require("body-parser");
+
 const app = express();
 const path = require('path');
 
 app.use(connectLiveReload())
+app.use(bodyParser.urlencoded({extended: false}));
 
 // view engine setup
 app.set('view engine', 'pug')
@@ -27,11 +31,18 @@ const PORT = process.env.PORT || 9000
 
 // Go to localhost:9090 in your browser while the program is running
 app.get('/', (req, res) => {
+  LocalStore.updateState()
   Data = {
     value1: "Something good",
-    cake: "Not a pie"
+    cake: LocalStore.getUpdate()
   }
   res.render('home.pug', Data)
+})
+
+app.post('/updateState/:sensor', (req, res) => {
+  // 5. Set state of microcontroller
+  LocalStore.setState()
+
 })
 
 app.get('/database', async (req,res)=>{
