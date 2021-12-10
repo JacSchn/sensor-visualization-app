@@ -43,6 +43,21 @@ app.get('/database', async (req,res)=>{
   });
 })
 
+app.post('/micro', (req, res) => {
+  try{
+    const sensors = req.body.sensor;
+
+  for (s in sensors) {
+    //DB.SaveStatus(s.name, s.state, []);
+    //DB.SaveHistorical(s.name, [], [], s.timestamp);
+    console.log(s);
+  }
+  res.send(200);
+  }
+  catch{
+    res.send(500);
+  }
+})
 
 app.listen(PORT, () => {
   console.log(`App running on localhost:${PORT}`);
