@@ -48,6 +48,34 @@ app.post('/updateState/:sensor', (req, res) => {
 
 })
 
+//#2
+app.get('/getState', (req, res) => {
+  var start = new Date().getTime();
+  
+  Data = {};
+    var end = new Date().getTime() + 15000;
+    var hasUpdate=LocalStore.getHasUpdate();
+        //1500 Miliseconds=15 seconds
+    while(hasUpdate==false && Date().getTime()<=end)
+    {}
+    
+    if(hasUpdate) //15 seconds
+    {
+      var f=db.GetStatus(rear_usb);
+      var r=db.GetStatus(front_usb);
+      var rp=db.GetStatus(rp_lidar);
+
+      Data = {
+      front_usb: f,
+      rear_usb: r,
+      rp_lidar: rp
+      }
+      res.json(Data);
+    }
+      res.json(Data);
+  })
+
+
 app.get('/database', async (req,res)=>{
   await DB.SaveStatus("LED-Fixture","On",[]);
   const stat = await DB.GetStatus("LED-Fixture");
@@ -60,6 +88,11 @@ app.get('/database', async (req,res)=>{
     "testHist": hist
   });
 })
+
+//#9
+app.get('/getMicro/:timespan', (req, res) => {
+  res.json(getMicroData(timespan));
+}
 
 
 app.listen(PORT, () => {
