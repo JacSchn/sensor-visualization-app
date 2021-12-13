@@ -1,4 +1,4 @@
-var LocalStorage = require('node-localstorage').LocalStorage,
+var LocalStorage = require('node-localstorage').LocalStorage;
 localStorage = new LocalStorage('./scratch');
 
 const getHasUpdate = () => {

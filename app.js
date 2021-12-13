@@ -32,12 +32,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const PORT = process.env.PORT || 9000
 
-// Go to localhost:9090 in your browser while the program is running
+// Go to localhost:9000 in your browser while the program is running
 app.get('/', (req, res) => {
-  LocalStore.updateState()
   Data = {
     value1: "Something good",
-    cake: LocalStore.getUpdate()
+    cake: LocalStore.getHasUpdate()
   }
   res.render('home.pug', Data)
 })
