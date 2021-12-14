@@ -41,8 +41,17 @@ app.get('/', (req, res) => {
 
 app.post('/updateState/:sensor', (req, res) => {
   // 5. Set state of microcontroller
-  LocalStore.setState()
+  try{
+    const sensor = req.params.sensor
+    const state = req.headers.state
 
+    LocalStore.setState(sensor, state)
+    LocalStore.setHasUpdate(true)
+    res.send(200)
+  }
+  catch{
+    res.send(400)
+  }
 })
 
 app.get('/database', async (req,res)=>{
