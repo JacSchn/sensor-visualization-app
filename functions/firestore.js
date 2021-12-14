@@ -80,11 +80,24 @@ const GetStatus = async (sensorName) => {
     return returnData
 }
 
+const getMicroData = async (sensorName, timespan) => {
+    const db = await getFirestore();
+    let returnData = []
+    const dateRef = await db.collection(sensorName).get()
+    const snapshot = await DataTransfer.where('timestamp', '>=', timespan)
+    snapshot.forEach((doc) => {
+        returnData.push(doc.data())
+    })
+    console.log(returnData)
+    return returnData
+}
+
 module.exports = {
     SaveHistorical: SaveHistorical,
     SaveStatus: SaveStatus,
     GetHistorical: GetHistorical,
     GetStatus: GetStatus,
+    getMircroData: getMicroData
     //DeleteHistorical: DeleteHistorical,
     //DeleteStatus: DeleteStatus
 }
