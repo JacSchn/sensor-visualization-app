@@ -18,6 +18,7 @@ var connectLiveReload = require("connect-livereload")
 
 const express = require('express');
 const bodyParser = require("body-parser");
+const jsStringify = require('js-stringify');
 
 const app = express();
 const path = require('path');
@@ -34,17 +35,23 @@ const PORT = process.env.PORT || 9000
 
 // Go to localhost:9000 in your browser while the program is running
 app.get('/', (req, res) => {
-  Data = {
-    value1: "Something good",
-    cake: LocalStore.getHasUpdate()
+  SensorStates = {
+    front_usb: true,
+    rear_usb: false,
+    rp_lidar: true
   }
-  res.render('home.pug', Data)
+  res.render('home.pug', {jsStringify, SensorStates});
 })
+
+app.get('/visuals', (req, res) => {
+  res.render('visual.pug')
+})
+
 
 app.post('/updateState/:sensor', (req, res) => {
   // 5. Set state of microcontroller
-  LocalStore.setState()
-
+  console.log(`${req.params.sensor} now has a state ${req.headers.state}`)
+  res.sendStatus(200);
 })
 
 app.get('/database', async (req,res)=>{

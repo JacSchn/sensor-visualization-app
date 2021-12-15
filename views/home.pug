@@ -1,17 +1,25 @@
 doctype html
 title HawkRover
 head
-  link(rel='stylesheet' href='style.css')
+  link(rel='stylesheet' href='home.css')
 header
   .container
     nav
       ul
         li.title Hawk rover
         li
-          a(href='index.html') Controls
+          a(href='/') Controls
         li
-          a(href='visuals.html') Visuals
+          a(href='/visuals') Visuals
 script.
+  const CurrStates = !{jsStringify(SensorStates)};
+
+  window.addEventListener('load', function () {
+
+    document.getElementById("fUSB").checked = CurrStates.front_usb
+
+  })
+
   function sendStatus(sensorID, state) {
   let req = new XMLHttpRequest();
   console.log("In test")
@@ -25,11 +33,11 @@ script.
   }
   function rUSBClickClick() {
   var y = document.getElementById("rUSB").checked;
-  sendStatus("rear_usb", x);
+  sendStatus("rear_usb", y);
   }
   function fUSBClick() {
   var z = document.getElementById("fUSB").checked;
-  sendStatus("front_usb", x);
+  sendStatus("front_usb", z);
   }
 .row
   .column
