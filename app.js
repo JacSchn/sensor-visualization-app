@@ -43,7 +43,6 @@ app.get('/', (req, res) => {
 app.get('/getState', (req, res) => {
   const start = new Date().getTime();
   
-  Data = {};
     const end = new Date().getTime() + 15000;
     const hasUpdate = LocalStore.getHasUpdate();
         //1500 Miliseconds=15 seconds
