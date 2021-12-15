@@ -1,7 +1,7 @@
 doctype html
 title HawkRover
 head
-  link(rel='stylesheet' href='home.css')
+  link(rel='stylesheet' href='style.css')
 header
   .container
     nav
@@ -11,23 +11,43 @@ header
           a(href='index.html') Controls
         li
           a(href='visuals.html') Visuals
+script.
+  function sendStatus(sensorID, state) {
+  let req = new XMLHttpRequest();
+  console.log("In test")
+  req.open("POST", `/updateState/${sensorID}`)
+  req.setRequestHeader('state', state)
+  req.send();
+  }
+  function LiDARClick() {
+  var x = document.getElementById("LiDAR").checked;
+  sendStatus("rp_lidar", x);
+  }
+  function rUSBClickClick() {
+  var y = document.getElementById("rUSB").checked;
+  sendStatus("rear_usb", x);
+  }
+  function fUSBClick() {
+  var z = document.getElementById("fUSB").checked;
+  sendStatus("front_usb", x);
+  }
 .row
   .column
     h2 Rp LiDAR
     p
       label.toggle1
-        input(type='checkbox')
+        input#LiDAR(type='checkbox' onclick='LiDARClick();')
         span.slider.round
   .column
     h2 Rear USB
     p
       label.toggle2
-        input(type='checkbox')
+        input#rUSB(type='checkbox' onclick='rUSBClickClick();')
         span.slider.round
   .column
     h2 Front USB
     p
       label.toggle3
-        input(type='checkbox')
+        input#fUSB(type='checkbox' onclick='fUSBClick();')
         span.slider.round
 script(src='main.js')
