@@ -1,13 +1,61 @@
-doctype html 
-html
-    head
-        meta(charset='utf-8')
-        title Search
-        meta(name='viewport', content='width=device-width, initial-scale=1.0')
-        link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css', integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T', crossorigin='anonymous')
-        link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Roboto')
-        link(rel="stylesheet", href='../style.css') 
-    body
-        .header
-            include header.pug
-        h1 Hello World!
+doctype html
+title HawkRover
+head
+  link(rel='stylesheet' href='home.css')
+header
+  .container
+    nav
+      ul
+        li.title Hawk rover
+        li
+          a(href='/') Controls
+        li
+          a(href='/visuals') Visuals
+script.
+  const CurrStates = !{jsStringify(SensorStates)};
+
+  //- window.addEventListener('load', function () {
+
+  //-   document.getElementById("fUSB").checked = CurrStates.front_usb
+
+  //- })
+
+  function sendStatus(sensorID, state) {
+    let req = new XMLHttpRequest();
+    console.log("In test")
+    req.open("POST", `/updateState/${sensorID}`)
+    req.setRequestHeader('state', state)
+    req.send();
+  }
+  function LiDARClick() {
+    var x = document.getElementById("LiDAR").checked;
+    sendStatus("rp_lidar", x);
+  }
+  function rUSBClickClick() {
+    var y = document.getElementById("rUSB").checked;
+    sendStatus("rear_usb", y);
+  }
+  function fUSBClick() {
+    var z = document.getElementById("fUSB").checked;
+    sendStatus("front_usb", z);
+  }
+.row
+  .column
+    h2 Rp LiDAR
+    p
+      label.toggle1
+        input#LiDAR(type='checkbox' onclick='LiDARClick();')
+        span.slider.round
+  .column
+    h2 Rear USB
+    p
+      label.toggle2
+        input#rUSB(type='checkbox' onclick='rUSBClickClick();')
+        span.slider.round
+  .column
+    h2 Front USB
+    p
+      label.toggle3
+        input#fUSB(type='checkbox' onclick='fUSBClick();')
+        span.slider.round
+script(src='main.js')

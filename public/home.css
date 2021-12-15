@@ -1,0 +1,156 @@
+body {
+    margin: 0;
+    background: #222;
+    font-family: 'Work sans', sans-serif;
+    font-weight: 300;
+}
+
+
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+header {
+    background: #55d6aa;
+
+
+}
+
+header::after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+nav ul {
+    padding: 0;
+    list-style: none;
+}
+
+nav li {
+    padding-right: 300px;
+    display: inline-block;
+    margin-left: 40px;
+    padding-top: 20px;
+    position: relative;
+}
+
+nav a {
+    color: #444;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 18px;
+}
+
+nav li.title {
+    font-size: 24px;
+}
+
+nav a::before {
+    content: '';
+    display: block;
+    height: 5px;
+    width: 0%;
+    background-color: #444;
+    position: absolute;
+    top: 0;
+    transition: all ease-in-out 250ms;
+}
+
+nav a:hover::before {
+    width: 100px;
+}
+
+.column {
+    border-left: 2px solid white;
+    float: left;
+    width: 32.33%;
+}
+
+.row:after{
+    content: "";
+    display: table;
+    clear: both;
+}
+div h2{
+    color: white;
+    text-align: center;
+}
+
+
+nav {
+    float: right;
+    
+}
+
+header::after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.toggle {
+    position: relative;
+
+}
+
+.toggle1 input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.toggle2 input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.toggle3 input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: relative;
+    left: 235px;
+    display: block;
+    cursor: pointer;
+    background-color: #333;
+    transition: .4s;
+    width: 150px;
+    height: 70px;
+}
+
+.slider:before {
+    content: '';
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    background-color: white;
+    transition: 0.4s;
+    top: 10px;
+    left: 6px;
+}
+
+input:checked + .slider {
+    background-color: rgb(4, 243, 44);
+    box-shadow: 0 0 12px greenyellow;
+}
+
+input:checked + .slider:before {
+    transform: translateX(80px);
+}
+
+.slider.round {
+    border-radius: 20px;
+}
+
+.slider.round::before {
+    border-radius: 20px;
+}
+
