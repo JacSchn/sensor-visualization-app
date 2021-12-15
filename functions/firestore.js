@@ -79,12 +79,25 @@ const GetStatus = async (sensorName) => {
     console.log(returnData)
     return returnData
 }
+//Possible Replacement for getHistorical()
+const getMicroData = async (sensorName, timespan) => {
+    const db = await getFirestore();
+    let returnData = []
+    const dateRef = await db.collection(sensorName).get()
+    const snapshot = await dateRef.where('timestamp', '>=', timespan)
+    snapshot.forEach((doc) => {
+        returnData.push(doc.data())
+    })
+    console.log(JSON.stringify(returnData))
+    return JSON.stringify(returnData)
+}
 
 module.exports = {
     SaveHistorical: SaveHistorical,
     SaveStatus: SaveStatus,
     GetHistorical: GetHistorical,
     GetStatus: GetStatus,
+    getMircroData: getMicroData
     //DeleteHistorical: DeleteHistorical,
     //DeleteStatus: DeleteStatus
 }
