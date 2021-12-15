@@ -48,13 +48,11 @@ app.get('/getState', (req, res) => {
     'front_usb': false,
     'rear_usb': false
   }
-  console.log("I would like to know my state")
   res.json(Return);
 })
 
 app.post('/micro', express.json(), (req, res) => {
-  console.log("Someone called me!");
-  console.log(`${req.body.sensor[2].name}`)
+  console.log(`${req.body.sensor[2].name} has state of ${req.body.sensor[2].state}`)
   res.sendStatus(200)
 })
 
