@@ -20,10 +20,8 @@ const getState = (sensorName) => {
 
 const setState = (sensorName, passedState) => {
     function checkState(passedState){
-        console.log(sensorName)
-        console.log(passedState)
+        console.log(`Set ${sensorName} state to ${passedState}`)
         if(passedState == 'true' || passedState == 'false'){
-            console.log("If is true")
             localStorage.setItem(sensorName, passedState)
         }
         else{

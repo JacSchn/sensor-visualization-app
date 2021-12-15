@@ -153,4 +153,14 @@ input:checked + .slider:before {
 .slider.round::before {
     border-radius: 20px;
 }
+div form{
+    position: relative;
+    top: 50px;
+    left: 150px;
+}
+
+div form label {
+    position: relative;
+    color: white;
+}
 

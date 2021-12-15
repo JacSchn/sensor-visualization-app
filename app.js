@@ -22,7 +22,6 @@ const jsStringify = require('js-stringify');
 
 const app = express();
 const path = require('path');
-const { time } = require('console');
 
 app.use(connectLiveReload())
 app.use(bodyParser.urlencoded({extended: false}));
@@ -49,7 +48,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/visuals', (req, res) => {
-  res.send('Page still in development :/')
+  res.render('visuals.pug')
 })
 
 //Point 2
@@ -63,8 +62,6 @@ app.post('/updateState/:sensor', async (req, res) => {
   try{
     let sensor = req.params.sensor
     let state = req.headers.state
-    console.log(sensor)
-    console.log(state)
     LocalStore.setState(sensor, state)
     LocalStore.setHasUpdate(true)
     res.sendStatus(200)
@@ -109,6 +106,7 @@ app.post('/micro', express.json(), (req, res) => {
     let sensors = req.body.sensor;
     //console.log(req.body.sensor[0].name)
     for (s in sensors) {
+      // Leave commented out until ready to post data to database
       //DB.SaveStatus(s.name, s.state, []);
       //DB.SaveHistorical(s.name, [], [], s.timestamp);
       //console.log(s.name);
@@ -138,8 +136,7 @@ setTimeout(function run() { // HTTP long polling from step 2
         const rp = (LocalStore.getState('rp_lidar') === 'true');
         Data['front_usb'] = f;
         Data['rear_usb'] = r;
-        Data.rp_lidar = rp;
-        //console.log(Data)
+        Data['rp_lidar'] = rp;
         res.json(Data);
       }
     })
