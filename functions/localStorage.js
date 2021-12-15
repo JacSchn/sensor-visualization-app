@@ -9,17 +9,6 @@ const setHasUpdate = (currUpdate) => {
     localStorage['hasUpdate'] = currUpdate
 }
 
-const getMicroState = app.get('/microState', async (req, res, sensorName) => {
-    //Retreive client's guess of what microcontroller or sensor state is
-    //If there is no guess, assume the client has no info about current state
-    const microState = await getState(sensorName, sensorState)
-    res.send({
-        sensorName: microState
-    })
-    //Or res.send(microState)
-    //Or return microState?
-})
-
 const getState = async (sensorName, sensorState) => {
     //Grabs local state from serverside storage using sensorState as a key for it's respective value
     const currState = localStorage.getItem(sensorName)
@@ -51,8 +40,11 @@ const getState = async (sensorName, sensorState) => {
 
 const setState = (sensorName, passedState) => {
     function checkState(passedState){
-        if(passedState == "on" || passedState == "off"){
+        if(passedState == true || passedState == false){
             localStorage.setItem(sensorName, passedState)
+        }
+        else{
+            throw console.error();
         }
     }
     checkState(passedState)

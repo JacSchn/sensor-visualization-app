@@ -79,7 +79,7 @@ const GetStatus = async (sensorName) => {
     console.log(returnData)
     return returnData
 }
-
+//Possible Replacement for getHistorical()
 const getMicroData = async (sensorName, timespan) => {
     const db = await getFirestore();
     let returnData = []
