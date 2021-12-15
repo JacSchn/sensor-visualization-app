@@ -44,7 +44,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/visuals', (req, res) => {
-  res.render('visual.pug')
+  res.render('visuals.pug')
 })
 
 
