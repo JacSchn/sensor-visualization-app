@@ -22,6 +22,7 @@ const jsStringify = require('js-stringify');
 
 const app = express();
 const path = require('path');
+const { time } = require('console');
 
 app.use(connectLiveReload())
 app.use(bodyParser.urlencoded({extended: false}));
@@ -32,6 +33,10 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 const PORT = process.env.PORT || 9000
+
+let connections = []
+const DELAY = 1000;
+const LIMIT = 15;
 
 // Go to localhost:9000 in your browser while the program is running
 app.get('/', (req, res) => {
@@ -48,40 +53,12 @@ app.get('/visuals', (req, res) => {
 })
 
 //Point 2
-app.get('/getState', (req, res) => {
-  const end = new Date().getTime() + 15000;
-  let hasUpdate = LocalStore.getHasUpdate();
-  let curTime = new Date().getTime();
-  console.log(hasUpdate)
+app.get('/getState', async (req, res) => {
   Data = {}
-  //15000 Miliseconds=15 seconds
-  while(hasUpdate == 'false' && curTime<=end)
-  {
-    curTime = new Date().getTime()
-    hasUpdate = LocalStore.getHasUpdate();
-  }
-  
-  if(hasUpdate) //15 seconds
-  {
-    //const f = db.GetStatus(rear_usb);
-    //const r = db.GetStatus(front_usb);
-    //const rp = db.GetStatus(rp_lidar);
-
-    const f = LocalStore.getState('front_usb');
-    const r = LocalStore.getState('rear_usb');
-    const rp = LocalStore.getState('rp_lidar');
-    Data['front_usb'] = f;
-    Data['rear_usb'] = r;
-    Data.rp_lidar = rp;
-    //console.log(Data)
-    LocalStore.setHasUpdate(false);
-    res.json(Data);
-  }else{
-    res.json(Data);
-  }
+  connections.push(res)
 })
 
-app.post('/updateState/:sensor', (req, res) => {
+app.post('/updateState/:sensor', async (req, res) => {
   // 5. Set state of microcontroller
   try{
     let sensor = req.params.sensor
@@ -142,6 +119,35 @@ app.post('/micro', express.json(), (req, res) => {
     res.sendStatus(500);
   }
 })
+
+let tick = 0;
+
+setTimeout(function run() { // HTTP long polling from step 2
+  // Execute if there has been an update or if it has been 15 seconds
+  if(LocalStore.getHasUpdate() === 'true' || ++tick >= LIMIT){
+    connections.map(res => {
+      if(true) //15 seconds
+      {
+        LocalStore.setHasUpdate(false);
+        //const f = db.GetStatus(rear_usb);
+        //const r = db.GetStatus(front_usb);
+        //const rp = db.GetStatus(rp_lidar);
+    
+        const f = (LocalStore.getState('front_usb') === 'true');
+        const r = (LocalStore.getState('rear_usb') === 'true');
+        const rp = (LocalStore.getState('rp_lidar') === 'true');
+        Data['front_usb'] = f;
+        Data['rear_usb'] = r;
+        Data.rp_lidar = rp;
+        //console.log(Data)
+        res.json(Data);
+      }
+    })
+    connections = [];
+    tick = 0;
+  }
+  setTimeout(run, DELAY)
+}, DELAY)
 
 app.listen(PORT, () => {
   console.log(`App running on localhost:${PORT}`);
