@@ -9,33 +9,15 @@ const setHasUpdate = (currUpdate) => {
     localStorage['hasUpdate'] = currUpdate
 }
 
-const getState = async (sensorName, sensorState) => {
+const getState = async (sensorName) => {
     //Grabs local state from serverside storage using sensorState as a key for it's respective value
     const currState = localStorage.getItem(sensorName)
     
-    //If sensorState is undefined, return currState
-    if(sensorState === undefined || sensorState === null){
-        return currState
+    if(currState == undefined || currState == null){
+        return error
     }
-    //If passed in object (sensorState) is not equal to currState, return currState
-    if(sensorState != currState){
-        return currState
-    }
-    //Regrab currState once every 1 second
-    else{
-        //Function that regrabs/updates currState and returns currState if currState changes
-        function regrabState(){
-            currState = localStorage.getItem(sensorName)
-            if(sensorState != currState){
-                return currState
-            }
-        }
-        //10 iterations with each iteration occuring approximatley every second
-        for(let i = 0; i < 10; i++){
-            setTimeout(regrabState, 1000)
-        }
-    }
-    return sensorState
+    
+    return currState
 }
 
 const setState = (sensorName, passedState) => {

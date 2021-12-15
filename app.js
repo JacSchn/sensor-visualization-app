@@ -39,6 +39,7 @@ app.get('/', (req, res) => {
   res.render('home.pug', Data)
 })
 
+//Point 2
 app.get('/getState', (req, res) => {
   const start = new Date().getTime();
   
@@ -51,9 +52,13 @@ app.get('/getState', (req, res) => {
     
     if(hasUpdate) //15 seconds
     {
-      const f = db.GetStatus(rear_usb);
-      const r = db.GetStatus(front_usb);
-      const rp = db.GetStatus(rp_lidar);
+      //const f = db.GetStatus(rear_usb);
+      //const r = db.GetStatus(front_usb);
+      //const rp = db.GetStatus(rp_lidar);
+
+      const f = LocalStore.getState(rear_usb);
+      const r = LocalStore.getState(front_usb);
+      const rp = LocalStore.getState(rp_lidar);
 
       Data = {
       front_usb: f,
