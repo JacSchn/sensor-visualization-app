@@ -38,7 +38,24 @@ app.get('/', (req, res) => {
     value1: "Something good",
     cake: LocalStore.getHasUpdate()
   }
+  console.log("Why am I here?")
   res.render('home.pug', Data)
+})
+
+app.get('/getState', (req, res) => {
+  Return = {
+    'rp_lidar': false,
+    'front_usb': false,
+    'rear_usb': false
+  }
+  console.log("I would like to know my state")
+  res.json(Return);
+})
+
+app.post('/micro', express.json(), (req, res) => {
+  console.log("Someone called me!");
+  console.log(`${req.body.sensor[2].name}`)
+  res.sendStatus(200)
 })
 
 app.post('/updateState/:sensor', (req, res) => {
