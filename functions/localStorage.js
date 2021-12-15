@@ -10,13 +10,11 @@ const setHasUpdate = (currUpdate) => {
 }
 
 const getState = async (sensorName) => {
-    //Grabs local state from serverside storage using sensorState as a key for it's respective value
     const currState = localStorage.getItem(sensorName)
     
     if(currState == undefined || currState == null){
         return error
     }
-    
     return currState
 }
 
@@ -35,7 +33,6 @@ const setState = (sensorName, passedState) => {
 module.exports = {
     getHasUpdate: getHasUpdate,
     setHasUpdate: setHasUpdate,
-    getMicroState: getMicroState,
     getState: getState,
     setState: setState
 }

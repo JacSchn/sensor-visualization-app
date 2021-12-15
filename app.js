@@ -45,7 +45,7 @@ app.get('/getState', (req, res) => {
   
     const end = new Date().getTime() + 15000;
     const hasUpdate = LocalStore.getHasUpdate();
-        //1500 Miliseconds=15 seconds
+        //15000 Miliseconds=15 seconds
     while(hasUpdate == false && Date().getTime()<=end)
     {}
     
@@ -55,8 +55,8 @@ app.get('/getState', (req, res) => {
       //const r = db.GetStatus(front_usb);
       //const rp = db.GetStatus(rp_lidar);
 
-      const f = LocalStore.getState(rear_usb);
-      const r = LocalStore.getState(front_usb);
+      const f = LocalStore.getState(front_usb);
+      const r = LocalStore.getState(rear_usb);
       const rp = LocalStore.getState(rp_lidar);
 
       Data = {
