@@ -49,7 +49,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/visuals', (req, res) => {
-  res.send('Page still in development :/')
+  res.render('visuals.pug')
 })
 
 //Point 2

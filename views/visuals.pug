@@ -1,0 +1,109 @@
+doctype html
+title HawkRover
+head
+  link(rel='stylesheet' href='home.css')
+header
+  .container
+    nav
+      ul
+        li.title Hawk rover
+        li
+          a(href='/') Controls
+        li
+          a(href='/visuals') Visuals
+script.
+.row
+  .column
+    h2 Rp LiDAR
+    p
+      script(type='text/javascript').
+        window.onload = function () {
+        var chart = new CanvasJS.Chart("chartContainer",
+        {
+        title: {
+        text: "Rp LiDAR data"
+        },
+        axisX: {
+        title: "Name Of Sensor",
+        titleFontFamily: "comic sans ms"
+        },
+        data: [
+        {
+        type: "column",
+        dataPoints: [
+        { x: 10, y: 18, label: "Rp LiDAR" },
+        ]
+        }
+        ]
+        });
+        chart.render();
+        }
+      script(type='text/javascript' src='https://canvasjs.com/assets/script/canvasjs.min.js')
+      #chartContainer(style='height: 200px; width: 220px; position: relative; left: 200px;')
+      form(action='')
+        label(for='LiDARDate') Enter Date:
+        input#date1(type='date')
+        input(type='submit')
+  .column
+    h2 Rear USB
+    p
+      script(type='text/javascript').
+        window.onload = function () {
+        var chart = new CanvasJS.Chart("chartContainer",
+        {
+        title: {
+        text: "Rear USB Data"
+        },
+        axisX: {
+        title: "Name Of Sensor",
+        titleFontFamily: "comic sans ms"
+        },
+        data: [
+        {
+        type: "column",
+        dataPoints: [
+        { x: 10, y: 13, label: "RUSB" },
+        ]
+        }
+        ]
+        });
+        chart.render();
+        }
+      script(type='text/javascript' src='https://canvasjs.com/assets/script/canvasjs.min.js')
+      #chartContainer2(style='height: 200px; width: 220px; position: relative; left: 200px;')
+      form(action='')
+        label(for='rUSBDate') Enter Date:
+        input#date2(type='date')
+        input(type='submit')
+  .column
+    h2 Front USB
+    p
+      script(type='text/javascript').
+        window.onload = function () {
+        var chart = new CanvasJS.Chart("chartContainer3",
+        {
+        title: {
+        text: "Front USB Data"
+        },
+        axisX: {
+        title: "Name Of Sensor",
+        titleFontFamily: "comic sans ms"
+        },
+        data: [
+        {
+        type: "column",
+        dataPoints: [
+        { x: 10, y: 6, label: "FUSB" },
+        ]
+        }
+        ]
+        });
+        chart.render();
+        }
+      script(type='text/javascript' src='https://canvasjs.com/assets/script/canvasjs.min.js')
+      #chartContainer3(style='height: 200px; width: 220px; position: relative; left: 200px;')
+      form(action='')
+        label(for='fUSBDate') Enter Date:
+        input#date3(type='date')
+        input(type='submit')
+script(type='text/javascript' src='https://canvasjs.com/assets/script/canvasjs.min.js')
