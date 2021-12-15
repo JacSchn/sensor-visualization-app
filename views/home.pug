@@ -14,30 +14,30 @@ header
 script.
   const CurrStates = !{jsStringify(SensorStates)};
 
-  window.addEventListener('load', function () {
+  //- window.addEventListener('load', function () {
 
-    document.getElementById("fUSB").checked = CurrStates.front_usb
+  //-   document.getElementById("fUSB").checked = CurrStates.front_usb
 
-  })
+  //- })
 
   function sendStatus(sensorID, state) {
-  let req = new XMLHttpRequest();
-  console.log("In test")
-  req.open("POST", `/updateState/${sensorID}`)
-  req.setRequestHeader('state', state)
-  req.send();
+    let req = new XMLHttpRequest();
+    console.log("In test")
+    req.open("POST", `/updateState/${sensorID}`)
+    req.setRequestHeader('state', state)
+    req.send();
   }
   function LiDARClick() {
-  var x = document.getElementById("LiDAR").checked;
-  sendStatus("rp_lidar", x);
+    var x = document.getElementById("LiDAR").checked;
+    sendStatus("rp_lidar", x);
   }
   function rUSBClickClick() {
-  var y = document.getElementById("rUSB").checked;
-  sendStatus("rear_usb", y);
+    var y = document.getElementById("rUSB").checked;
+    sendStatus("rear_usb", y);
   }
   function fUSBClick() {
-  var z = document.getElementById("fUSB").checked;
-  sendStatus("front_usb", z);
+    var z = document.getElementById("fUSB").checked;
+    sendStatus("front_usb", z);
   }
 .row
   .column

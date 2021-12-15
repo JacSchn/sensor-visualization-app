@@ -36,9 +36,9 @@ const PORT = process.env.PORT || 9000
 // Go to localhost:9000 in your browser while the program is running
 app.get('/', (req, res) => {
   SensorStates = {
-    front_usb: true,
+    front_usb: false,
     rear_usb: false,
-    rp_lidar: true
+    rp_lidar: false
   }
   res.render('home.pug', {jsStringify, SensorStates});
 })
@@ -49,46 +49,51 @@ app.get('/visuals', (req, res) => {
 
 //Point 2
 app.get('/getState', (req, res) => {
-  const start = new Date().getTime();
+  const end = new Date().getTime() + 15000;
+  let hasUpdate = LocalStore.getHasUpdate();
+  let curTime = new Date().getTime();
+  console.log(hasUpdate)
+  Data = {}
+  //15000 Miliseconds=15 seconds
+  while(hasUpdate == 'false' && curTime<=end)
+  {
+    curTime = new Date().getTime()
+    hasUpdate = LocalStore.getHasUpdate();
+  }
   
-    const end = new Date().getTime() + 15000;
-    const hasUpdate = LocalStore.getHasUpdate();
-        //15000 Miliseconds=15 seconds
-    while(hasUpdate == false && Date().getTime()<=end)
-    {}
-    
-    if(hasUpdate) //15 seconds
-    {
-      //const f = db.GetStatus(rear_usb);
-      //const r = db.GetStatus(front_usb);
-      //const rp = db.GetStatus(rp_lidar);
+  if(hasUpdate) //15 seconds
+  {
+    //const f = db.GetStatus(rear_usb);
+    //const r = db.GetStatus(front_usb);
+    //const rp = db.GetStatus(rp_lidar);
 
-      const f = LocalStore.getState(front_usb);
-      const r = LocalStore.getState(rear_usb);
-      const rp = LocalStore.getState(rp_lidar);
-
-      Data = {
-      front_usb: f,
-      rear_usb: r,
-      rp_lidar: rp
-      }
-      res.json(Data);
-    }
-      res.json(Data);
-  })
+    const f = LocalStore.getState('front_usb');
+    const r = LocalStore.getState('rear_usb');
+    const rp = LocalStore.getState('rp_lidar');
+    Data['front_usb'] = f;
+    Data['rear_usb'] = r;
+    Data.rp_lidar = rp;
+    //console.log(Data)
+    LocalStore.setHasUpdate(false);
+    res.json(Data);
+  }else{
+    res.json(Data);
+  }
+})
 
 app.post('/updateState/:sensor', (req, res) => {
   // 5. Set state of microcontroller
   try{
-    const sensor = req.params.sensor
-    const state = req.headers.state
-
+    let sensor = req.params.sensor
+    let state = req.headers.state
+    console.log(sensor)
+    console.log(state)
     LocalStore.setState(sensor, state)
     LocalStore.setHasUpdate(true)
-    res.send(200)
+    res.sendStatus(200)
   }
   catch{
-    res.send(400)
+    res.sendStatus(400)
   }
 })
 
@@ -122,19 +127,19 @@ app.get('/microState', async (req, res, sensorName) => {
 })
 
 
-app.post('/micro', (req, res) => {
+app.post('/micro', express.json(), (req, res) => {
   try{
-    const sensors = req.body.sensor;
-
-  for (s in sensors) {
-    //DB.SaveStatus(s.name, s.state, []);
-    //DB.SaveHistorical(s.name, [], [], s.timestamp);
-    console.log(s);
-  }
-  res.send(200);
+    let sensors = req.body.sensor;
+    //console.log(req.body.sensor[0].name)
+    for (s in sensors) {
+      //DB.SaveStatus(s.name, s.state, []);
+      //DB.SaveHistorical(s.name, [], [], s.timestamp);
+      //console.log(s.name);
+    }
+    res.sendStatus(200);
   }
   catch{
-    res.send(500);
+    res.sendStatus(500);
   }
 })
 

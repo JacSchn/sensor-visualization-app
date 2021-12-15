@@ -9,7 +9,7 @@ const setHasUpdate = (currUpdate) => {
     localStorage['hasUpdate'] = currUpdate
 }
 
-const getState = async (sensorName) => {
+const getState = (sensorName) => {
     const currState = localStorage.getItem(sensorName)
     
     if(currState == undefined || currState == null){
@@ -20,7 +20,10 @@ const getState = async (sensorName) => {
 
 const setState = (sensorName, passedState) => {
     function checkState(passedState){
-        if(passedState == true || passedState == false){
+        console.log(sensorName)
+        console.log(passedState)
+        if(passedState == 'true' || passedState == 'false'){
+            console.log("If is true")
             localStorage.setItem(sensorName, passedState)
         }
         else{
